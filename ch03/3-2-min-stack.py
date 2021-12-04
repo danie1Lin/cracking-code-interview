@@ -1,4 +1,4 @@
-from stack import Stack
+from .stack import Stack
 
 """
 一定要是 O(1) 所以只用一個值在 pop 的時候，如果將最小 pop 掉了，要找出最小會超過 O(1)，所以我們要記錄所有的最小值的 history

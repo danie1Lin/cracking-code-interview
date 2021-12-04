@@ -1,7 +1,7 @@
 import pprint
 import json
 from itertools import chain
-from stack import Stack
+from .stack import Stack
 # first level: the queue will not grow or shrink
 # second level: the stack will grow when not enough
 # third level: see array as ring buffer

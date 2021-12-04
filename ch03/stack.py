@@ -2,6 +2,16 @@ class Stack:
     def __init__(self):
         self.top = None
 
+    def __len__(self):
+        if self.top is None:
+            return 0
+        c = self.top
+        count = 1
+        while c.next != None:
+            c = c.next
+            count += 1
+        return count
+
     def is_empty(self):
         if self.top == None:
             return True
