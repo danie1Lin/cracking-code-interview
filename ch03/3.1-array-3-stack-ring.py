@@ -38,13 +38,28 @@ def len_of_ring(start: int, end: int, total: int) -> int:
 
 def to_abs_idx_of_ring(start: int, total: int, rel_idx: int) -> int:
     """
+    
     原本這樣寫，不過其實用 mod 不管 rel_idx 多大都可以
+    version 1
     abs_idx = rel_idx + start
     if abs_idx >= total:
         abs_idx -= total
     return abs_idx
     """
+    """
+    version 2:
+
+    (start + rel_idx) % total
+    有些無法對應負數，ex abs_idx = -11 total = 10
+    python -11 % 10 會是 9 
+    但是 java/Golang/rust/js -11 % 10 會是 -1
+    就必須換成這樣：
+
+    abs_idx = start + rel_idx 
+    return ( abs_idx % total + total) % total
+    """
     return (start + rel_idx) % total
+
 
 
 class StackNoSpace(Exception):
@@ -153,13 +168,18 @@ class MultiStack:
             space = self.space_left()
             if space < 1:
                 raise
-            shift_space = int(space / self.queue_count)
+            shift_space = int(space / self.queue_count) # 這個平均分配的策略也許可以優化
             if shift_space < 1:
                 shift_space = space
             tmp = Stack()
             shift = shift_space
+            """
+            或是
             for i in chain(range(stack_num + 1, self.queue_count), range(0, stack_num)):
-                stack = self.stacks[i]
+            """
+            for idx in range(stack_num + 1, stack_num + 1 + self.queue_count):
+                idx %= self.queue_count
+                stack = self.stacks[idx]
                 available_decrease = min(stack.space_left(), shift)
                 """
                 1. 押入 stack , 之後從後面開始 shift 才不會把資料蓋掉
