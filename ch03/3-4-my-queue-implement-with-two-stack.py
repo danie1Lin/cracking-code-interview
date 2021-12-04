@@ -21,10 +21,6 @@ class MyQueue:
             self.list.push(self.tmp_list.pop())
         return res
 
-
-
-
-
 if __name__ == '__main__':
     q = MyQueue()
     q.add(1)
@@ -37,4 +33,3 @@ if __name__ == '__main__':
     q.add(2)
     q.add(3)
     assert q.remove_many(3) == [1,2,3]
-
