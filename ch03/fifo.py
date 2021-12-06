@@ -1,12 +1,12 @@
-import stack
+from .stack import *
 
-class Fifo(stack.Stack):
+class Fifo(Stack):
     def __init__(self) -> None:
         self.last = None
         super().__init__()
 
     def add(self, value):
-        node = stack.Node(value)
+        node = Node(value)
         if self.last == None:
             self.last = node 
         else:
