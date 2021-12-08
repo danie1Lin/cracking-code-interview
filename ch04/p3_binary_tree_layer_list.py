@@ -3,7 +3,7 @@ from .tree import BinaryTreeNode
 from .p2_minimum_height_binary_search_tree import build_minimum_tree
 import unittest
 
-def layer_list_of_tree(root: Optional[BinaryTreeNode]) -> [[int]]:
+def layer_list_of_tree(root: Optional[BinaryTreeNode]) -> list[list[int]]:
     q: Deque[Tuple[Optional[BinaryTreeNode], int]] = Deque()
     q.append((root, 0))
     result = []
