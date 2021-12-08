@@ -1,5 +1,7 @@
 from typing import Deque, Optional
+
 from .tree import BinaryTreeNode
+
 from .p2_minimum_height_binary_search_tree import build_minimum_tree
 
 import unittest
