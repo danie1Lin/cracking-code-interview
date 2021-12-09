@@ -39,6 +39,44 @@ class BinaryTreeNode(Generic[TBinaryTreeNode]):
         if self.right:
             yield from self.right.pre_order() 
 
+    def set_left(self, node: Optional[Any]) -> None:
+        self.left = node
+
+    def set_right(self, node: Optional[Any]) -> None:
+        self.right = node
+
+    def find(self, value):
+        if self.value == value:
+            return self
+        if self.left:
+            node = self.left.find(value)
+            if node:
+                return node
+        if self.right:
+            node = self.right.find(value)
+            if node:
+                return node
+
+    def __repr__(self) -> str:
+        return f"""
+            {self.value}
+           /     \\
+          {self.left}     {self.right}
+    """
+
+
+    @classmethod
+    def build_minimum_searching_tree(cls, arr: list):
+        if len(arr) == 0:
+            return None
+        mid = int(len(arr) / 2)
+        root = cls(arr[mid])
+        if len(arr) == 1:
+            return root
+        root.set_left(cls.build_minimum_searching_tree(arr[0:mid]))
+        root.set_right(cls.build_minimum_searching_tree(arr[mid+1:]))
+        return root
+
 
 if __name__ == '__main__':
     nodes = []

@@ -10,8 +10,8 @@ def build_minimum_tree(arr: []) -> Optional[BinaryTreeNode]:
     root = BinaryTreeNode(arr[mid])
     if len(arr) == 1:
         return root
-    root.left = build_minimum_tree(arr[0:mid])
-    root.right = build_minimum_tree(arr[mid+1:])
+    root.set_left(build_minimum_tree(arr[0:mid]))
+    root.set_right(build_minimum_tree(arr[mid+1:]))
     """
     python 的 range index 超過不會怎麼樣, 其他語言要注意一下
     >>> [0,1,2][4:]
