@@ -18,6 +18,9 @@ class BinaryTreeNode(Generic[TBinaryTreeNode]):
         self.left = left 
         self.right = right
 
+    def __eq__(self, __o: object) -> bool:
+       return self.value == __o or (hasattr(__o, 'value') and __o.value == self.value)
+
     def in_order(self):
         if self.left:
             yield from self.left.in_order() 
@@ -58,12 +61,7 @@ class BinaryTreeNode(Generic[TBinaryTreeNode]):
                 return node
 
     def __repr__(self) -> str:
-        return f"""
-            {self.value}
-           /     \\
-          {self.left}     {self.right}
-    """
-
+        return f"Node: {self.value}"
 
     @classmethod
     def build_minimum_searching_tree(cls, arr: list):

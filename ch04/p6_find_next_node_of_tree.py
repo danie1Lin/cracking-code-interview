@@ -22,6 +22,23 @@ class BinaryTreeNodeWithParent(BinaryTreeNode):
         if node:
             node.parent = self
         return super().set_right(node)
+    
+    def deep(self) -> int:
+        deep = 0
+        curr = self
+        while curr.parent:
+            curr = curr.parent
+            deep += 1
+        return deep
+
+    def go_up(self, layer_num):
+        curr = self
+        for i in range(layer_num, 0,-1):
+            if not curr:
+                return None
+            curr = curr.parent
+        return curr
+
 
     def next_of(self, value):
         node = self.find(value)
