@@ -1,4 +1,4 @@
-from typing import Any, Generic, Optional, TypeVar
+from typing import Any, Deque, Generic, Optional, TypeVar
 import math
 
 """
@@ -61,7 +61,48 @@ class BinaryTreeNode(Generic[TBinaryTreeNode]):
                 return node
 
     def __repr__(self) -> str:
-        return f"Node: {self.value}"
+        max_layer = self.max_layer()
+        max_value = self.max()
+        value_width = int(math.log10(max_value)) + 1 + 2
+        line_width = (2 ** (max_layer + 1)) * value_width - 1
+        queue = Deque()
+        queue.appendleft((self, 0, int(line_width / 2) + 1, line_width - 1))
+        lines = [" " * line_width] * (max_layer + 1) * 2
+        while len(queue) != 0:
+            node, line_num, pos, value_width = queue.pop()
+            if not node:
+                # TODO： 印出N
+                continue
+            else:
+                s = str(node.value) 
+            line = lines[line_num]
+            lines[line_num] = line[:pos] + s + line[pos + len(s):]
+            next_line = lines[line_num + 1]
+            # TODO: 可以算要加多少層連接
+            lines[line_num+1]= next_line[:pos - 1] + "/" + next_line[pos:pos+len(s)] + "\\" + next_line[pos+len(s)+1:]
+            if node:
+                width = int(value_width / 2) 
+                queue.append((node.left, line_num + 2, pos - int(width/2), width))
+                queue.append((node.right, line_num + 2, pos + int(width/2), width))
+        lines.insert(0, f"{self.__class__}")
+        return "\n".join(lines)
+
+
+    def max(self):
+        maximum = float('-inf')
+        for i in self.pre_order():
+            if not i:
+                continue
+            maximum = max(i, maximum)
+        return maximum
+
+    def max_layer(self):
+        layer = 1 
+        if self.left:
+            layer = max(layer, self.left.max_layer() + 1)
+        if self.right:
+            layer = max(layer, self.right.max_layer() + 1)
+        return layer
 
     @classmethod
     def build_minimum_searching_tree(cls, arr: list):
@@ -100,3 +141,4 @@ if __name__ == '__main__':
         print(f"{i} ", end='')
     print()
 
+    print(root)
