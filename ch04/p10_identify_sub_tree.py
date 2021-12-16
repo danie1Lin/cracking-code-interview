@@ -56,6 +56,7 @@ class TestIdentifySubTree(unittest.TestCase):
         self.assertIsSubTree(treeA, Node(2, Node(11), Node(12)))
         self.assertIsNotSubTree(treeA, Node(1, right=Node(2, right=Node(3))))
         self.assertIsNotSubTree(treeA, Node(2, left=Node(1, right=Node(3))))
+
     def assertIsSubTree(self, treeA, treeB):
         return self.assertTrue(treeA.is_sub_tree(treeB), f"{treeB}\nnot subtree of:\n{treeA}")
 

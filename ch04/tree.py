@@ -1,4 +1,4 @@
-from typing import Any, Deque, Generic, Optional, TypeVar
+from typing import Any, Deque, Generic, Iterable, Optional, TypeVar
 import math
 
 """
@@ -12,6 +12,8 @@ class BinaryTreeNode(Generic[TBinaryTreeNode]):
     value: Any
     left: Optional[TBinaryTreeNode]
     right: Optional[TBinaryTreeNode]
+    def __hash__(self) -> int:
+        return super().__hash__()
 
     def __init__(self, value, left = None, right = None) -> None:
         self.value = value
@@ -19,7 +21,7 @@ class BinaryTreeNode(Generic[TBinaryTreeNode]):
         self.right = right
 
     def __eq__(self, __o: object) -> bool:
-       return self.value == __o or (hasattr(__o, 'value') and __o.value == self.value)
+       return self.value == __o or (hasattr(__o, 'value') and __o.value == self.value and __o.left == self.left and __o.right == self.right)
 
     def in_order(self):
         if self.left:
@@ -105,7 +107,7 @@ class BinaryTreeNode(Generic[TBinaryTreeNode]):
         return layer
 
     @classmethod
-    def build_minimum_searching_tree(cls, arr: list):
+    def build_minimum_searching_tree(cls, arr: list) -> Optional[TBinaryTreeNode]:
         if len(arr) == 0:
             return None
         mid = int(len(arr) / 2)
