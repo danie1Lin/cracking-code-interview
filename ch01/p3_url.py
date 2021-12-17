@@ -18,9 +18,6 @@ def url_encode(s: list[str], length: int) -> list[str]:
 
 
 
-        
-
-
 class TestUrlEncode(unittest.TestCase):
     def test(self):
         self.assertEqual(url_encode(list("Mr John Smith    "), 13), list("Mr%20John%20Smith"))
