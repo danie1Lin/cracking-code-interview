@@ -10,7 +10,7 @@ def compress_string(s: str)-> str:
             # compress_str += current_word + str(current_word_count)
             # 如果是 java 連接字串的速度其實很慢，用 string builder 更好
             # python best practice is join https://waymoot.org/home/python_string/
-            # StringIO 算是第二快
+            # StringIO 算是第二StringIO快
             compress_str = "".join([compress_str, current_word, str(current_word_count)])
             current_word_count = 1
             current_word = s[curr]
