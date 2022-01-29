@@ -11,7 +11,6 @@ class VehicleType(Enum):
     Bike = 2
     Motorcycle = 3
 
-
 class Vehicle:
     no: str
     vechichle_type: VehicleType 
@@ -19,7 +18,7 @@ class Vehicle:
         self.no = no
         self.vechichle_type = vehicle_type
 
-class Space:
+class Spot:
     vehicle: Vehicle|None
     vehicle_type: VehicleType
 
@@ -45,12 +44,12 @@ class Space:
         self.ocuppied_duration += 1
 
 class ParkingLot:
-    spaces: Dict[VehicleType, Deque[Space]]
-    vehicles: Dict[Vehicle, Space]
+    spaces: Dict[VehicleType, Deque[Spot]]
+    vehicles: Dict[Vehicle, Spot]
     def __init__(self, spaces: Dict[VehicleType, int]) -> None:
         self.spaces = dict()
         for type, num in spaces.items():
-            self.spaces[type] = Deque([Space(type) for _ in range(num)])
+            self.spaces[type] = Deque([Spot(type) for _ in range(num)])
 
         self.vehicles = dict() 
         self.unit_price = 10
@@ -69,7 +68,7 @@ class ParkingLot:
         _, duration = space.left()
         return duration * self.unit_price
         
-    def find_empty(self, type: VehicleType) -> Space | None:
+    def find_empty(self, type: VehicleType) -> Spot | None:
         tmp = None
         while not tmp:
             tmp = self.spaces[type].popleft()
