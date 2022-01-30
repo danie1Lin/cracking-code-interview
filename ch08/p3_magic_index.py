@@ -47,7 +47,9 @@ def magic_index_not_distinct(array: list[int], low=None, high=None) -> int:
         low = 0
     if high == None:
         high = len(array) - 1
-    if low < 0 or len(array) <= high or  low > high: # low > high is inportant to exclude the array[middle] is negative
+    # low > high is inportant to exclude the array[middle] is negative
+    # Infact, low < 0 or len(array) <= high will never happen.
+    if low > high: 
         return -1
     middle = (low + high) // 2
     if array[middle] == middle:
@@ -70,7 +72,7 @@ def magic_index_not_distinct(array: list[int], low=None, high=None) -> int:
         return -1
     return -1
 
-class TestMagicIndex(unittest.TestCase):
+class TestMagicIndexNotDistinct(unittest.TestCase):
     cases = {
             2: [1, 2, 2, 4, 8],
             0: [0, 3, 3, 4, 5],
