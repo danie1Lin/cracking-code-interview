@@ -1,10 +1,19 @@
-#limit: a & b > 0
+# limit: a & b > 0
 def recursive_multiply(a: int, b: int):
+    # recursive function call is more expensive so we place smaller number at second argument
+    bigger = max(a, b)
+    smaller = min(a, b)
     if a < 0 | b < 0:
         raise ValueError("must be positive function")
-    if b == 0:
+    if smaller == 0:
         return 0 
-    return a + recursive_multiply(a, b - 1)
+    if smaller == 1:
+        return bigger
+    # use bitshift to n function call to log(n) function call 
+    result = recursive_multiply(bigger, smaller >> 1)
+    result += result
+    if smaller % 2: result += bigger
+    return result
 
 def recursive_multiply_bitshift(a: int, b: int):
     r = 0
