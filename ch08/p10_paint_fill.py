@@ -21,6 +21,7 @@ def test_paint_fill():
         [0, 0, 0, 0, 0],
         [0, 1, 1, 1, 0],
         [0, 1, 0, 1, 1],
+        #            v this point situations can ask interviewer whether it counts as the surrounding
         [0, 1, 1, 1, 0],
         [0, 0, 0, 0, 1]
     ]
