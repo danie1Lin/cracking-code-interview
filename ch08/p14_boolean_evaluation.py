@@ -4,41 +4,41 @@
 # 1 ^ (...) + (1 ^ 0) | (...) + (1^0|0) ^ (...)
 from typing import DefaultDict
 
-
 DEBUG = False
 
 
 def count_evaluate_dp(eq: str, result: bool) -> int:
     # state[offset][True/False] = ways
-    state = DefaultDict(lambda: DefaultDict(lambda: [0, 0]))
-    for i in range(0, len(eq), 2):
-        state[eq[i]][i][int(eq[i])] = 1
-    for l in range(3, len(eq)+1, 2):
-        for i in range(0, len(eq) - l+1, 2):
-            tmp_eq = eq[i:i+l]
+    state = [[[0, 0] for _offset in range(len(eq))]
+             for _eq_len in range(len(eq)+1)]
+    for offset in range(0, len(eq), 2):
+        state[1][offset][int(eq[offset])] = 1
+    for eq_len in range(3, len(eq)+1, 2):
+        for offset in range(0, len(eq) - eq_len+1, 2):
+            tmp_eq = eq[offset:offset+eq_len]
             for op_idx in range(1, len(tmp_eq), 2):
                 op = tmp_eq[op_idx]
                 left = tmp_eq[:op_idx]
                 right = tmp_eq[op_idx+1:]
-                left_ways = state[left][i]
-                right_ways = state[right][i+op_idx+1]
+                left_ways = state[len(left)][offset]
+                right_ways = state[len(right)][offset+op_idx+1]
                 for left_value, left_way_count in enumerate(left_ways):
                     for right_value, right_way_count in enumerate(right_ways):
                         match op:
                             case "^":
-                                state[tmp_eq][i][int(bool(left_value) ^ bool(
+                                state[eq_len][offset][int(bool(left_value) ^ bool(
                                     right_value))] += left_way_count * right_way_count
                             case "|":
-                                state[tmp_eq][i][int(bool(left_value) | bool(
+                                state[eq_len][offset][int(bool(left_value) | bool(
                                     right_value))] += left_way_count * right_way_count
                             case "&":
-                                state[tmp_eq][i][int(bool(left_value) & bool(
+                                state[eq_len][offset][int(bool(left_value) & bool(
                                     right_value))] += left_way_count * right_way_count
                             case _:
                                 raise RuntimeError(
-                                    f"{tmp_eq}: from:{i} length:{l} op_idx: {op_idx}")
+                                    f"{tmp_eq}: from:{offset} length:{eq_len} op_idx: {op_idx}")
     way = 0
-    for ways in state[eq].values():
+    for ways in state[len(eq)]:
         way += ways[result]
     return way
 
