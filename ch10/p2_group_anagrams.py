@@ -5,10 +5,19 @@ from typing import DefaultDict
 
 
 def sort_by_anagrams(words: list[str]):
-    words.sort(key=by_anagrams_with_map)
-
+    # we do not need to sort all list here we only need to group, from O(nlogn * nlogn) to O(n^2)
+    group_by_value = DefaultDict(lambda: [])
+    for word in words:
+        group_by_value[by_anagrams(word)].append(word)
+    i = 0
+    for group_words in group_by_value.values():
+        for word in group_words:
+            words[i] = word
+            i += 1
 
 # O(nlog(n))
+
+
 def by_anagrams_by_sort_str(s: str):
     return sorted(s.lower())
 
@@ -25,16 +34,9 @@ def by_anagrams(s: str):
     return v
 
 
-def by_anagrams_with_map(s: str):
-    counts = DefaultDict(lambda: 0)
-    for c in s.lower():
-        counts[c] += 1
-    return counts
-
-
 def test():
     cases = [dict(given=['apple', 'tea', 'coffee', 'eat', 'fefeco', 'paple'],
-                  expected=['tea', 'eat', 'apple', 'paple', 'coffee', 'fefeco'])]
+                  expected=['apple', 'paple', 'tea', 'eat', 'coffee', 'fefeco'])]
     for case in cases:
         words = case['given'].copy()
         sort_by_anagrams(words)
